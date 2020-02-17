@@ -6,7 +6,7 @@ if [[ -z $TMUX ]]; then
     # Enable vman https://github.com/jez/vim-superman
     export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
     # execute the bash_profile
-    source ~/.bashrc
+    # source ~/.bashrc
 
 fi
 
