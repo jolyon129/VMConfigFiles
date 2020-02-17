@@ -1,4 +1,5 @@
 
+# B
 # Avoid Tmux execute the PATH concatenation evertime!
 # https://stackoverflow.com/questions/13058578/how-to-prevent-tmux-from-filling-up-the-global-path-variable-with-duplicated-pat
 if [[ -z $TMUX ]]; then 
@@ -11,7 +12,7 @@ fi
 
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/LiZhuolun/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 
 # Set name of the theme to load.
