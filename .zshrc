@@ -109,3 +109,6 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 # Enable vman https://github.com/jez/vim-superman
 export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"  
+
+
+
