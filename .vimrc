@@ -266,5 +266,6 @@ set number                     " Show current line number
 set relativenumber             " Show relative line numbers
 
 " Yank to the system clipborad
-set clipboard=unnamed
+" http://vim.wikia.com/wiki/Accessing_the_system_clipboard
+set clipboard=unnamedplus
 
