@@ -11,7 +11,7 @@ ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 # New configuration
 # Show username and hostname
 local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT='%{$fg_bold[magenta]%}%n%{$reset_color%}%{$FG[146]%}@%{$reset_color%}%{$fg_bold[blue]%}%m%{$reset_color%}  %{$fg_bold[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
+PROMPT='%{$fg_bold[magenta]%}%n%{$reset_color%}%{$FG[146]%}@%{$reset_color%}%{$fg_bold[blue]%}%m%{$reset_color%}  %{$fg_bold[cyan]%}%2~%{$reset_color%} $(git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
