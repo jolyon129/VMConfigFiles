@@ -1,6 +1,6 @@
-# Ubuntu VM Environment Configuration
+# Environment Configuration Files
 
-I put my all kinds of linux config boilerplate here.
+I put all kinds of linux config boilerplates here.
 
 Including vim config, zsh config, etc.
 
