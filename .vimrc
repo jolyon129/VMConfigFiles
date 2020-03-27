@@ -145,6 +145,8 @@ if has('mouse')
   endif
 endif
 
+syntax on
+
 " Switch syntax highlighting on when the terminal has colors or when using the
 " GUI (which always has colors).
 if &t_Co > 2 || has("gui_running")
@@ -274,4 +276,4 @@ set relativenumber             " Show relative line numbers
 
 " Yank to the system clipborad
 " http://vim.wikia.com/wiki/Accessing_the_system_clipboard
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
