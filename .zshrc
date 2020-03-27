@@ -37,7 +37,6 @@ if [[ -z $TMUX ]]; then
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs-primary-backup/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs/golabs_submitted/golabs_submitted
-
 fi
 
 
@@ -184,10 +183,9 @@ export FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 # Add tab completion for vman
-# compdef vman="man"
+compdef vman="man"
 
-# Iterm 2 shell integration
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
