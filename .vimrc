@@ -26,6 +26,11 @@ Plugin 'tpope/vim-commentary'
 " https://vimawesome.com/plugin/vim-superman-superman
 Plugin 'jez/vim-superman'
 
+" https://wakatime.com/vim
+Plugin 'wakatime/vim-wakatime'
+
+" https://vimawesome.com/plugin/vim-airline-superman
+Plugin 'vim-airline/vim-airline'
 " <============================================>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -228,10 +233,12 @@ if has('syntax') && has('eval')
 endif
 
 
+" B
 " -------------------My own configuration starts here--------------
 
 " Double ESC to clear previous searching highlight
-nnoremap <silent> <Esc><Esc> :noh<CR> :call clearmatches()<CR>
+nnoremap <silent> <Esc><Esc> :let @/=""<CR>
+
 
 " Change the search highlighting background color
 set hlsearch
@@ -268,4 +275,3 @@ set relativenumber             " Show relative line numbers
 " Yank to the system clipborad
 " http://vim.wikia.com/wiki/Accessing_the_system_clipboard
 set clipboard=unnamedplus
-
