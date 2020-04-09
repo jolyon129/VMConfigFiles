@@ -31,6 +31,14 @@ Plugin 'wakatime/vim-wakatime'
 
 " https://vimawesome.com/plugin/vim-airline-superman
 Plugin 'vim-airline/vim-airline'
+
+" https://github.com/preservim/nerdtree
+Plugin 'preservim/nerdtree'
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'kien/ctrlp.vim'   
+
 " <============================================>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -270,10 +278,27 @@ let g:vim_markdown_folding_disabled = 1
 " e.g. :Man 3 printf
 runtime! ftplugin/man.vim
 
-
 set number                     " Show current line number
 set relativenumber             " Show relative line numbers
 
-" Yank to the system clipborad
-" http://vim.wikia.com/wiki/Accessing_the_system_clipboard
-" set clipboard=unnamedplus
+let g:NERDTreeWinSize = 20    " Set the width of NERDTree
+
+" Enable the list of buffers
+" let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+" let g:airline#extensions#tabline#fnamemod = ':t'
+
+" Basic Configuration for ctrip.vim
+" http://ctrlpvim.github.io/ctrlp.vim/#installation
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
+" let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
