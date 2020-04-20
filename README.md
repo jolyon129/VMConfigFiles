@@ -8,7 +8,9 @@ Try not repeat myself.
 
 # Usage
 
-Download into the home direcotory.
+Download into home and create soft links.
 
-run `create_soft_links.sh` to make softlinks for these configuration files
+For some reason, you'd better create them from the home directory. 
+
+E.g, `ln -sf ~/important-dot-files/.vimrc ~/.vimrc`
 
