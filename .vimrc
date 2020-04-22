@@ -325,6 +325,6 @@ let g:expand_region_text_objects = {
       \ 'ie'  :0, 
       \ }
 
-
-set wrap " soft wrap a lone line into multiple lines 
-set nolinebreak " only wrap line on whitespace 
+" https://stackoverflow.com/a/29140828/5984709
+set wrap linebreak nolist " soft wrap line on non-word
+set formatoptions=l " prevents when new/edited lines, don't auto break line
