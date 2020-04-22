@@ -39,6 +39,10 @@ Plugin 'tpope/vim-fugitive'
 
 Plugin 'kien/ctrlp.vim'   
 
+Plugin 'terryma/vim-expand-region'
+
+
+
 " <============================================>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -302,3 +306,25 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
   \ }
 " let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+
+" Help change working directory
+" https://github.com/kien/ctrlp.vim/issues/150
+let g:ctrlp_working_path_mode = 0 
+
+" https://vimawesome.com/plugin/vim-expand-region
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1, 
+      \ 'ib'  :1, 
+      \ 'iB'  :1, 
+      \ 'il'  :0, 
+      \ 'ip'  :0,
+      \ 'ie'  :0, 
+      \ }
+
+
+set wrap " soft wrap a lone line into multiple lines 
+set nolinebreak " only wrap line on whitespace 
