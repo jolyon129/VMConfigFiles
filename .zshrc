@@ -28,11 +28,16 @@ if [[ -z $TMUX ]]; then
 
 
     # Set additional GOPATH for Distributed System Labs
-    
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs-primary-backup/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs/golabs_submitted/golabs_submitted
+    # Set up GOBIN
+    export GOBIN=$HOME/WorkSpace/go/bin
 fi
+
+
+# Set up GOBIN
+export GOBIN=$HOME/WorkSpace/go/bin
 
 
 
@@ -153,8 +158,9 @@ unset __conda_setup
  
 # export FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.RunningFor}}\nSTATUS\t{{.Status}}\nPORTS\t{{.Ports}}\nNAMES\t{{.Names}}\n"
 
-
-export JAVA_HOME=$(/usr/libexec/java_home)
+# Use java 1.8 instead of 12
+# https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x 
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 # Add tab completion for vman
 compdef vman="man"

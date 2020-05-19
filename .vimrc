@@ -15,6 +15,9 @@ Plugin 'VundleVim/Vundle.vim'
 " <============================================>
 " Specify plugins you want to install here.
 
+"https://github.com/ycm-core/YouCompleteMe/wiki/Full-Installation-Guide 
+Plugin 'ycm-core/YouCompleteMe'
+
 " Install plasticboy/vim-markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -207,6 +210,12 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+" Then enter :DiffOff to close the diff windows.
+" https://stackoverflow.com/a/44149435/598479
+if !exists(":DiffQuit")
+  command DiffQuit diffoff <bar> only
+endif
+
 if has('langmap') && exists('+langremap')
   " Prevent that the langmap option applies to characters that result from a
   " mapping.  If set (default), this may break plugins (but it's backward
@@ -288,11 +297,13 @@ set relativenumber             " Show relative line numbers
 let g:NERDTreeWinSize = 20    " Set the width of NERDTree
 
 " Enable the list of buffers
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
-" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#fnamemod = ':t'
 
+
+" ---------------------------------
 " Basic Configuration for ctrip.vim
 " http://ctrlpvim.github.io/ctrlp.vim/#installation
 let g:ctrlp_map = '<c-p>'
@@ -311,6 +322,40 @@ let g:ctrlp_custom_ignore = {
 " https://github.com/kien/ctrlp.vim/issues/150
 let g:ctrlp_working_path_mode = 0 
 
+
+" move around the buffer
+map gn :bn<cr>
+map gN :bp<cr>
+
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+" idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
+nmap <leader>q :bp <BAR> bd #<CR>
+nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
+" nmap <leader>q :bd<CR>
+" nmap <leader>wq :bd<CR>
+
+" show buffer number
+" https://github.com/vim-airline/vim-airline/issues/1149 
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" This allows buffers to be hidden if you've modified a buffer.
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+
+" diplay list and invoke the `:buffer`
+:nnoremap <leader>ls :ls<CR>:buffer<Space>
+
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+
+" ---------------------------
+
 " https://vimawesome.com/plugin/vim-expand-region
 let g:expand_region_text_objects = {
       \ 'iw'  :0,
@@ -328,3 +373,34 @@ let g:expand_region_text_objects = {
 " https://stackoverflow.com/a/29140828/5984709
 set wrap linebreak nolist " soft wrap line on non-word
 set formatoptions=l " prevents when new/edited lines, don't auto break line
+
+"  map :CtrlPBuffer to a leader command to make that command very accessible
+"  since I used it so often.
+nnoremap <Leader>b :CtrlPBuffer<CR>
+
+" https://stackoverflow.com/questions/7692233/nerdtree-reveal-file-in-tree
+" ,n real current file in NERDTree
+nnoremap <Leader>nf :NERDTreeFind<CR>
+" ,m triggle NERDTree
+nmap <Leader>n :NERDTreeToggle<CR>
+
+" https://stackoverflow.com/a/37866336/5984709
+function! CloseAllBuffersButCurrent()
+  let curr = bufnr("%")
+  let last = bufnr("$")
+
+  if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
+  if curr < last | silent! execute (curr+1).",".last."bd" | endif
+endfunction
+
+if !exists(":OnlyB")
+  command! OnlyB call CloseAllBuffersButCurrent()<CR>
+endif  
+
+" https://stackoverflow.com/questions/19934060/vim-how-to-go-to-the-declaration-of-a-class-method-function-variable-etc
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
+nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+
+
+
