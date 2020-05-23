@@ -16,7 +16,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Specify plugins you want to install here.
 
 "https://github.com/ycm-core/YouCompleteMe/wiki/Full-Installation-Guide 
-Plugin 'ycm-core/YouCompleteMe'
+" Plugin 'ycm-core/YouCompleteMe'
 
 " Install plasticboy/vim-markdown
 Plugin 'godlygeek/tabular'
@@ -279,9 +279,12 @@ set tabstop=2
 " Remove swap,backup and undo files from working diretory
 " This puts those files out of sight (and out of your way), but doesn't turn them off entirely.
 " https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f 
-set backupdir=.backup/,~/.backup/,~/vimtmp//
-set directory=.swp/,~/.swp/,~/vimtmp//
-set undodir=.undo/,~/.undo/,~/vimtmp//
+" set backupdir=.backup/,~/.backup/,~/vimtmp//
+set backupdir=~/vimtmp//
+" set directory=.swp/,~/.swp/,~/vimtmp//
+set directory=~/vimtmp//
+" set undodir=.undo/,~/.undo/,~/vimtmp//
+set undodir=~/vimtmp//
 
 " Disable vim markdown auto-folding
 let g:vim_markdown_folding_disabled = 1
@@ -330,7 +333,8 @@ map gN :bp<cr>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 " idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
-nmap <leader>q :bp <BAR> bd #<CR>
+nmap <leader>q :bd<CR>
+nmap <leader>bq :bp <BAR> bd #<CR>
 nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
 " nmap <leader>q :bd<CR>
 " nmap <leader>wq :bd<CR>
@@ -385,6 +389,7 @@ nnoremap <Leader>nf :NERDTreeFind<CR>
 nmap <Leader>n :NERDTreeToggle<CR>
 
 " https://stackoverflow.com/a/37866336/5984709
+" Close all buffers execept the current one
 function! CloseAllBuffersButCurrent()
   let curr = bufnr("%")
   let last = bufnr("$")
@@ -397,10 +402,10 @@ if !exists(":OnlyB")
   command! OnlyB call CloseAllBuffersButCurrent()<CR>
 endif  
 
-" https://stackoverflow.com/questions/19934060/vim-how-to-go-to-the-declaration-of-a-class-method-function-variable-etc
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
-nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+" https://vi.stackexchange.com/a/6966
+" Press ESC to exit terminal simulator mode for nvim
+tnoremap <Esc> <C-\><C-n>
+
 
 
 
