@@ -390,9 +390,15 @@ nnoremap <leader>nt :NERDTreeToggle<bar>wincmd p<CR>
 function! CloseAllBuffersButCurrent()
   let curr = bufnr("%")
   let last = bufnr("$")
-
+  let NERDTree = 0
+  if exists("g:NERDTree") && g:NERDTree.IsOpen()
+    let NERDTree = 1
+  endif
   if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
   if curr < last | silent! execute (curr+1).",".last."bd" | endif
+  if NERDTree == 1AA
+    execute ":NERDTreeFind | wincmd p"
+  endif
 endfunction
 
 if !exists(":OnlyB")
@@ -418,3 +424,6 @@ endif
 if !exists(":VT")
   command! VT vsplit | term
 endif
+
+
+
