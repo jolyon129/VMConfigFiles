@@ -211,10 +211,24 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+
+" https://stackoverflow.com/a/37866336/5984709
+" Close all buffers execept the current one
+function! DiffOff()
+  let NERDTree = 0
+  if exists("g:NERDTree") && g:NERDTree.IsOpen()
+    let NERDTree = 1
+  endif
+  execute ":diffoff | only"
+  if NERDTree == 1
+    execute ":NERDTreeToggle | wincmd p"
+  endif
+endfunction
+
 " Then enter :DiffOff to close the diff windows.
 " https://stackoverflow.com/a/44149435/598479
 if !exists(":DiffQuit")
-  command DiffQuit diffoff <bar> only
+  command DiffQuit call DiffOff()
 endif
 
 if has('langmap') && exists('+langremap')
@@ -300,12 +314,28 @@ set relativenumber             " Show relative line numbers
 
 let g:NERDTreeWinSize = 30    " Set the width of NERDTree
 
-" Enable the list of buffers
+
+
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" This allows buffers to be hidden if you've modified a buffer.
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+
+
+" Use the airline tabline to show buffers
 let g:airline#extensions#tabline#enabled = 1
+" show buffer number instead index
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+" https://vi.stackexchange.com/a/21925
+" Show terminal buffer in tabline in nvim
+let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
 
 " ---------------------------------
 " Basic Configuration for ctrip.vim
@@ -328,8 +358,9 @@ let g:ctrlp_working_path_mode = 0
 
 
 " move around the buffer
-map gn :bn<cr>
-map gN :bp<cr>
+nnoremap gn :bn<cr>
+nnoremap gN :bp<cr>
+nnoremap gp :b#<cr>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
@@ -339,19 +370,9 @@ nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
 " nmap <leader>q :bd<CR>
 " nmap <leader>wq :bd<CR>
 
-" show buffer number
-" https://github.com/vim-airline/vim-airline/issues/1149 
-let g:airline#extensions#tabline#buffer_nr_show = 1
-
-" Use the right side of the screen
-let g:buffergator_viewport_split_policy = 'R'
-
-" This allows buffers to be hidden if you've modified a buffer.
-" This is almost a must if you wish to use buffers in this way.
-set hidden
 
 " diplay list and invoke the `:buffer`
-:nnoremap <leader>ls :ls<CR>:buffer<Space>
+:nnoremap <leader>ls :ls<CR>:b<Space>
 
 nnoremap <leader>bb :CtrlPBuffer<cr>
 nnoremap <leader>bf :CtrlP<cr>
@@ -396,7 +417,7 @@ function! CloseAllBuffersButCurrent()
   endif
   if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
   if curr < last | silent! execute (curr+1).",".last."bd" | endif
-  if NERDTree == 1AA
+  if NERDTree == 1
     execute ":NERDTreeFind | wincmd p"
   endif
 endfunction
@@ -409,8 +430,6 @@ endif
 " Press ESC to exit terminal simulator mode for nvim
 tnoremap <Esc><Esc> <C-\><C-n>
 
-" show buffer
-let g:airline#extensions#tabline#buffer_nr_show = 1
 " change style of tab/buffer in the upper
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " show hidden files by default
@@ -424,6 +443,5 @@ endif
 if !exists(":VT")
   command! VT vsplit | term
 endif
-
 
 
