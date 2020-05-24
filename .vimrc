@@ -353,9 +353,9 @@ set hidden
 " diplay list and invoke the `:buffer`
 :nnoremap <leader>ls :ls<CR>:buffer<Space>
 
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
+nnoremap <leader>bb :CtrlPBuffer<cr>
+nnoremap <leader>bf :CtrlP<cr>
+nnoremap <leader>bm :CtrlPMRU<cr>
 
 
 " ---------------------------
@@ -410,3 +410,11 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " show hidden files by default
 let NERDTreeShowHidden=1
 
+" open terminal
+if !exists(":T")
+  command! T split | term
+endif
+
+if !exists(":VT")
+  command! VT vsplit | term
+endif
