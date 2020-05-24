@@ -401,7 +401,7 @@ endif
 
 " https://vi.stackexchange.com/a/6966
 " Press ESC to exit terminal simulator mode for nvim
-tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc><Esc> <C-\><C-n>
 
 " show buffer
 let g:airline#extensions#tabline#buffer_nr_show = 1
