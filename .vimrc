@@ -334,7 +334,7 @@ map gN :bp<cr>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 " idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
-nmap <leader>q :bp <BAR> bd<CR>
+nmap <leader>q :bp <BAR> bd #<CR>
 nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
 " nmap <leader>q :bd<CR>
 " nmap <leader>wq :bd<CR>
