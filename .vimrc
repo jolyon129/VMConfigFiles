@@ -1,3 +1,4 @@
+let mapleader = "," 
 " --------------Vundle Starts-------------------------
 
 set nocompatible              " be iMproved, required
@@ -297,7 +298,7 @@ runtime! ftplugin/man.vim
 set number                     " Show current line number
 set relativenumber             " Show relative line numbers
 
-let g:NERDTreeWinSize = 20    " Set the width of NERDTree
+let g:NERDTreeWinSize = 30    " Set the width of NERDTree
 
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -333,8 +334,7 @@ map gN :bp<cr>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 " idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
-nmap <leader>q :bd<CR>
-nmap <leader>bq :bp <BAR> bd #<CR>
+nmap <leader>q :bp <BAR> bd<CR>
 nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
 " nmap <leader>q :bd<CR>
 " nmap <leader>wq :bd<CR>
@@ -378,15 +378,12 @@ let g:expand_region_text_objects = {
 set wrap linebreak nolist " soft wrap line on non-word
 set formatoptions=l " prevents when new/edited lines, don't auto break line
 
-"  map :CtrlPBuffer to a leader command to make that command very accessible
-"  since I used it so often.
-nnoremap <Leader>b :CtrlPBuffer<CR>
 
 " https://stackoverflow.com/questions/7692233/nerdtree-reveal-file-in-tree
-" ,n real current file in NERDTree
-nnoremap <Leader>nf :NERDTreeFind<CR>
-" ,m triggle NERDTree
-nmap <Leader>n :NERDTreeToggle<CR>
+" reveal current file in NERDTree
+nnoremap <leader>nf :NERDTreeFind<bar>wincmd p<CR>
+" triggle NERDTree
+nnoremap <leader>nt :NERDTreeToggle<bar>wincmd p<CR>
 
 " https://stackoverflow.com/a/37866336/5984709
 " Close all buffers execept the current one
@@ -406,6 +403,10 @@ endif
 " Press ESC to exit terminal simulator mode for nvim
 tnoremap <Esc> <C-\><C-n>
 
-
-
+" show buffer
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" change style of tab/buffer in the upper
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" show hidden files by default
+let NERDTreeShowHidden=1
 
