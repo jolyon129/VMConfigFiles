@@ -45,6 +45,10 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'terryma/vim-expand-region'
 
+" https://github.com/xolox/vim-session
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+
 
 
 " <============================================>
@@ -444,3 +448,4 @@ if !exists(":VT")
 endif
 
 
+let g:session_autosave = 'no'
