@@ -212,25 +212,6 @@ if !exists(":DiffOrig")
 endif
 
 
-" https://stackoverflow.com/a/37866336/5984709
-" Close all buffers execept the current one
-function! DiffOff()
-  let NERDTree = 0
-  if exists("g:NERDTree") && g:NERDTree.IsOpen()
-    let NERDTree = 1
-  endif
-  execute ":diffoff | only"
-  if NERDTree == 1
-    execute ":NERDTreeToggle | wincmd p"
-  endif
-endfunction
-
-" Then enter :DiffOff to close the diff windows.
-" https://stackoverflow.com/a/44149435/598479
-if !exists(":DiffQuit")
-  command DiffQuit call DiffOff()
-endif
-
 if has('langmap') && exists('+langremap')
   " Prevent that the langmap option applies to characters that result from a
   " mapping.  If set (default), this may break plugins (but it's backward
@@ -271,8 +252,27 @@ if has('syntax') && has('eval')
 endif
 
 
-" B
 " -------------------My own configuration starts here--------------
+
+
+" https://stackoverflow.com/a/37866336/5984709
+" Close all buffers execept the current one
+function! DiffOff()
+  let NERDTree = 0
+  if exists("g:NERDTree") && g:NERDTree.IsOpen()
+    let NERDTree = 1
+  endif
+  execute ":diffoff | only"
+  if NERDTree == 1
+    execute ":NERDTreeToggle | wincmd p"
+  endif
+endfunction
+
+" Then enter :DiffOff to close the diff windows.
+" https://stackoverflow.com/a/44149435/598479
+if !exists(":DiffQuit")
+  command DiffQuit call DiffOff()
+endif
 
 " Double ESC to clear previous searching highlight
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
@@ -317,6 +317,7 @@ let g:NERDTreeWinSize = 30    " Set the width of NERDTree
 
 
 " Use the right side of the screen
+" https://vim.fandom.com/wiki/Script:3619
 let g:buffergator_viewport_split_policy = 'R'
 
 " This allows buffers to be hidden if you've modified a buffer.
@@ -337,7 +338,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Show terminal buffer in tabline in nvim
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
 
-" ---------------------------------
 " Basic Configuration for ctrip.vim
 " http://ctrlpvim.github.io/ctrlp.vim/#installation
 let g:ctrlp_map = '<c-p>'
@@ -357,7 +357,7 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 0 
 
 
-" move around the buffer
+" move around the buffer list
 nnoremap gn :bn<cr>
 nnoremap gN :bp<cr>
 nnoremap gp :b#<cr>
@@ -367,13 +367,12 @@ nnoremap gp :b#<cr>
 " idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
 nmap <leader>q :bp <BAR> bd #<CR>
 nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
-" nmap <leader>q :bd<CR>
-" nmap <leader>wq :bd<CR>
 
 
 " diplay list and invoke the `:buffer`
 :nnoremap <leader>ls :ls<CR>:b<Space>
 
+" keybinding for ctrlp
 nnoremap <leader>bb :CtrlPBuffer<cr>
 nnoremap <leader>bf :CtrlP<cr>
 nnoremap <leader>bm :CtrlPMRU<cr>
