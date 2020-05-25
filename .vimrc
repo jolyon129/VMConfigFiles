@@ -359,8 +359,8 @@ let g:ctrlp_working_path_mode = 0
 
 " move around the buffer list
 nnoremap gn :bn<cr>
-nnoremap gN :bp<cr>
-nnoremap gp :b#<cr>
+nnoremap gp :bp<cr>
+nnoremap gb :b#<cr>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
@@ -436,7 +436,7 @@ let NERDTreeShowHidden=1
 
 " open terminal
 if !exists(":T")
-  command! T split | term
+  command! T belowright split | term | resize 13
 endif
 
 if !exists(":VT")
