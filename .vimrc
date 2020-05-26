@@ -210,11 +210,45 @@ endif
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
+" if !exists(":DiffOrig")
+"   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+" 		  \ | wincmd p | diffthis
+" endif
 
+
+" https://www.reddit.com/r/vim/comments/ic48s/view_diff_of_a_modified_file_and_its_original/
+function! DiffOrig()
+    if !exists("b:diff_active") && &buftype == "nofile"
+        echoerr "E: Cannot diff a scratch buffer"
+        return -1
+    elseif expand("%") == ""
+        echoerr "E: Buffer doesn't exist on disk"
+        return -1
+    endif
+
+    if !exists("b:diff_active") || b:diff_active == 0
+        let b:diff_active = 1
+        let l:orig_filetype = &l:filetype
+
+        leftabove vnew
+        let t:diff_buffer = bufnr("%")
+        set buftype=nofile
+
+        read #
+        0delete_
+        let &l:filetype = l:orig_filetype
+
+        diffthis
+        wincmd p
+        diffthis
+    else
+        diffoff
+        execute "bdelete " . t:diff_buffer
+        let b:diff_active = 0
+    endif
+endfunction
+
+command! DiffOrig call DiffOrig()
 
 if has('langmap') && exists('+langremap')
   " Prevent that the langmap option applies to characters that result from a
@@ -258,25 +292,6 @@ endif
 
 " -------------------My own configuration starts here--------------
 
-
-" https://stackoverflow.com/a/37866336/5984709
-" Close all buffers execept the current one
-function! DiffOff()
-  let NERDTree = 0
-  if exists("g:NERDTree") && g:NERDTree.IsOpen()
-    let NERDTree = 1
-  endif
-  execute ":diffoff | only"
-  if NERDTree == 1
-    execute ":NERDTreeToggle | wincmd p"
-  endif
-endfunction
-
-" Then enter :DiffOff to close the diff windows.
-" https://stackoverflow.com/a/44149435/598479
-if !exists(":DiffQuit")
-  command DiffQuit call DiffOff()
-endif
 
 " Double ESC to clear previous searching highlight
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
@@ -364,6 +379,7 @@ let g:ctrlp_working_path_mode = 0
 " move around the buffer list
 nnoremap gn :bn<cr>
 nnoremap gp :bp<cr>
+nnoremap gN :bp<cr>
 nnoremap gb :b#<cr>
 
 " Close the current buffer and move to the previous one
@@ -438,9 +454,13 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " show hidden files by default
 let NERDTreeShowHidden=1
 
+function! RevealTerminal()
+  
+endfunction
+
 " open terminal
 if !exists(":T")
-  command! T belowright split | term | resize 13
+  command! T belowright split | resize 10 | term 
 endif
 
 if !exists(":VT")
@@ -448,4 +468,12 @@ if !exists(":VT")
 endif
 
 
-let g:session_autosave = 'no'
+command! Bsplit belowright split | resize 10
+
+let g:session_autosave = 'prompt'
+
+" always have splits open below the current window by default
+" https://vim.fandom.com/wiki/Opening_new_buffer_below_the_current
+set splitbelow
+" always have vsplits open right to the current one
+set splitright
