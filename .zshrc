@@ -14,25 +14,30 @@ fi
 # https://stackoverflow.com/questions/13058578/how-to-prevent-tmux-from-filling-up-the-global-path-variable-with-duplicated-pat
 if [[ -z $TMUX ]]; then 
     # Enable vman https://github.com/jez/vim-superman
-    export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
-    # Add mongodb
-    export PATH="/usr/local/opt/mongodb-community@4.0/bin:$PATH"
-    # Add mysql
-    export PATH="/usr/local/mysql/bin:$PATH"
+    # export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
+    # # Add mongodb
+    # export PATH="/usr/local/opt/mongodb-community@4.0/bin:$PATH"
+    # # Add mysql
+    # export PATH="/usr/local/mysql/bin:$PATH"
     
-    # Set GOPATH
-    export GOPATH=$HOME/WorkSpace/go
+    # # Set GOPATH
+    # export GOPATH=$HOME/WorkSpace/go
 
-    # Add GOPATH/bin to PATH
-    export PATH="$PATH:$GOPATH/bin"
+    # # Add GOPATH/bin to PATH
+    # export PATH="$PATH:$GOPATH/bin"
 
 
-    # Set additional GOPATH for Distributed System Labs
-    
-    export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs
-    export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs-primary-backup/golabs
-    export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs/golabs_submitted/golabs_submitted
+    # # Set additional GOPATH for Distributed System Labs
+    # export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs
+    # export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs-primary-backup/golabs
+    # export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs/golabs_submitted/golabs_submitted
+    # # Set up GOBIN
+    # export GOBIN=$HOME/WorkSpace/go/bin
 fi
+
+
+# Set up GOBIN
+# export GOBIN=$HOME/WorkSpace/go/bin
 
 
 
@@ -137,24 +142,29 @@ export LANG=en_US.UTF-8
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/LiZhuolun/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/LiZhuolun/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/LiZhuolun/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/LiZhuolun/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/Users/LiZhuolun/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/LiZhuolun/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/LiZhuolun/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/LiZhuolun/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
 
  
 # export FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.RunningFor}}\nSTATUS\t{{.Status}}\nPORTS\t{{.Ports}}\nNAMES\t{{.Names}}\n"
 
+# Use java 1.8 instead of 12
+# https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x 
+# export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+# set groovy
+# export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
 
 # Add tab completion for vman
 compdef vman="man"
@@ -175,4 +185,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export HISTCONTROL=ignoredups 
 export HISTSIZE=1000
 
+
+
+alias setproxy='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891'
+
+alias unsetproxy='unset https_proxy http_proxy all_proxy'
 
