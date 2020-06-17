@@ -234,8 +234,8 @@ function! DiffOrig()
         let t:diff_buffer = bufnr("%")
         set buftype=nofile
 
-        read #
-        0delete_
+        r ++edit #
+        0d_
         let &l:filetype = l:orig_filetype
 
         diffthis
@@ -430,20 +430,26 @@ nnoremap <leader>nt :NERDTreeToggle<bar>wincmd p<CR>
 function! CloseAllBuffersButCurrent()
   let curr = bufnr("%")
   let last = bufnr("$")
-  let NERDTree = 0
+  let nERDTree = 0
   if exists("g:NERDTree") && g:NERDTree.IsOpen()
-    let NERDTree = 1
+    let nERDTree = 1
   endif
-  if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
-  if curr < last | silent! execute (curr+1).",".last."bd" | endif
-  if NERDTree == 1
+
+  if curr == 1   
+    silent! execute "2,".last."bd"         
+  elseif curr == last 
+    execute "1,".(last-1)."bd"  
+  else
+    execute "1,".(curr-1)."bd"     
+    execute (curr+1).",".last."bd"
+  endif
+
+  if nERDTree == 1
     execute ":NERDTreeFind | wincmd p"
   endif
 endfunction
 
-if !exists(":OnlyB")
-  command! OnlyB call CloseAllBuffersButCurrent()<CR>
-endif  
+command! OnlyB call CloseAllBuffersButCurrent()
 
 " https://vi.stackexchange.com/a/6966
 " Press ESC to exit terminal simulator mode for nvim
