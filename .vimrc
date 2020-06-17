@@ -1,3 +1,4 @@
+let mapleader = "," 
 " --------------Vundle Starts-------------------------
 
 set nocompatible              " be iMproved, required
@@ -15,6 +16,9 @@ Plugin 'VundleVim/Vundle.vim'
 " <============================================>
 " Specify plugins you want to install here.
 
+"https://github.com/ycm-core/YouCompleteMe/wiki/Full-Installation-Guide 
+" Plugin 'ycm-core/YouCompleteMe'
+
 " Install plasticboy/vim-markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -31,6 +35,22 @@ Plugin 'wakatime/vim-wakatime'
 
 " https://vimawesome.com/plugin/vim-airline-superman
 Plugin 'vim-airline/vim-airline'
+
+" https://github.com/preservim/nerdtree
+Plugin 'preservim/nerdtree'
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'kien/ctrlp.vim'   
+
+Plugin 'terryma/vim-expand-region'
+
+" https://github.com/xolox/vim-session
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+
+
+
 " <============================================>
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -190,10 +210,45 @@ endif
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
+" if !exists(":DiffOrig")
+"   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+" 		  \ | wincmd p | diffthis
+" endif
+
+
+" https://www.reddit.com/r/vim/comments/ic48s/view_diff_of_a_modified_file_and_its_original/
+function! DiffOrig()
+    if !exists("b:diff_active") && &buftype == "nofile"
+        echoerr "E: Cannot diff a scratch buffer"
+        return -1
+    elseif expand("%") == ""
+        echoerr "E: Buffer doesn't exist on disk"
+        return -1
+    endif
+
+    if !exists("b:diff_active") || b:diff_active == 0
+        let b:diff_active = 1
+        let l:orig_filetype = &l:filetype
+
+        leftabove vnew
+        let t:diff_buffer = bufnr("%")
+        set buftype=nofile
+
+        r ++edit #
+        0d_
+        let &l:filetype = l:orig_filetype
+
+        diffthis
+        wincmd p
+        diffthis
+    else
+        diffoff
+        execute "bdelete " . t:diff_buffer
+        let b:diff_active = 0
+    endif
+endfunction
+
+command! DiffOrig call DiffOrig()
 
 if has('langmap') && exists('+langremap')
   " Prevent that the langmap option applies to characters that result from a
@@ -235,8 +290,8 @@ if has('syntax') && has('eval')
 endif
 
 
-" B
 " -------------------My own configuration starts here--------------
+
 
 " Double ESC to clear previous searching highlight
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
@@ -258,9 +313,12 @@ set tabstop=2
 " Remove swap,backup and undo files from working diretory
 " This puts those files out of sight (and out of your way), but doesn't turn them off entirely.
 " https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f 
-set backupdir=.backup/,~/.backup/,~/vimtmp//
-set directory=.swp/,~/.swp/,~/vimtmp//
-set undodir=.undo/,~/.undo/,~/vimtmp//
+" set backupdir=.backup/,~/.backup/,~/vimtmp//
+set backupdir=~/vimtmp//
+" set directory=.swp/,~/.swp/,~/vimtmp//
+set directory=~/vimtmp//
+" set undodir=.undo/,~/.undo/,~/vimtmp//
+set undodir=~/vimtmp//
 
 " Disable vim markdown auto-folding
 let g:vim_markdown_folding_disabled = 1
@@ -270,10 +328,158 @@ let g:vim_markdown_folding_disabled = 1
 " e.g. :Man 3 printf
 runtime! ftplugin/man.vim
 
-
 set number                     " Show current line number
 set relativenumber             " Show relative line numbers
 
-" Yank to the system clipborad
-" http://vim.wikia.com/wiki/Accessing_the_system_clipboard
-" set clipboard=unnamedplus
+let g:NERDTreeWinSize = 30    " Set the width of NERDTree
+
+
+
+" Use the right side of the screen
+" https://vim.fandom.com/wiki/Script:3619
+let g:buffergator_viewport_split_policy = 'R'
+
+" This allows buffers to be hidden if you've modified a buffer.
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+
+
+" Use the airline tabline to show buffers
+let g:airline#extensions#tabline#enabled = 1
+" show buffer number instead index
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%s:'
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" https://vi.stackexchange.com/a/21925
+" Show terminal buffer in tabline in nvim
+let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
+
+" Basic Configuration for ctrip.vim
+" http://ctrlpvim.github.io/ctrlp.vim/#installation
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
+" let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+
+" Help change working directory
+" https://github.com/kien/ctrlp.vim/issues/150
+let g:ctrlp_working_path_mode = 0 
+
+
+" move around the buffer list
+nnoremap gn :bn<cr>
+nnoremap gp :bp<cr>
+nnoremap gN :bp<cr>
+nnoremap gb :b#<cr>
+
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+" idea from https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
+nmap <leader>q :bp <BAR> bd #<CR>
+nmap <leader>wq :w<CR>:bp <BAR> bd #<CR>
+
+
+" diplay list and invoke the `:buffer`
+:nnoremap <leader>ls :ls<CR>:b<Space>
+
+" keybinding for ctrlp
+nnoremap <leader>bb :CtrlPBuffer<cr>
+nnoremap <leader>bf :CtrlP<cr>
+nnoremap <leader>bm :CtrlPMRU<cr>
+
+
+" ---------------------------
+
+" https://vimawesome.com/plugin/vim-expand-region
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1, 
+      \ 'ib'  :1, 
+      \ 'iB'  :1, 
+      \ 'il'  :0, 
+      \ 'ip'  :0,
+      \ 'ie'  :0, 
+      \ }
+
+" https://stackoverflow.com/a/29140828/5984709
+set wrap linebreak nolist " soft wrap line on non-word
+set formatoptions=l " prevents when new/edited lines, don't auto break line
+
+
+" https://stackoverflow.com/questions/7692233/nerdtree-reveal-file-in-tree
+" reveal current file in NERDTree
+nnoremap <leader>nf :NERDTreeFind<bar>wincmd p<CR>
+" triggle NERDTree
+nnoremap <leader>nt :NERDTreeToggle<bar>wincmd p<CR>
+
+" https://stackoverflow.com/a/37866336/5984709
+" Close all buffers execept the current one
+function! CloseAllBuffersButCurrent()
+  let curr = bufnr("%")
+  let last = bufnr("$")
+  let nERDTree = 0
+  if exists("g:NERDTree") && g:NERDTree.IsOpen()
+    let nERDTree = 1
+  endif
+
+  if curr == 1   
+    silent! execute "2,".last."bd"         
+  elseif curr == last 
+    execute "1,".(last-1)."bd"  
+  else
+    execute "1,".(curr-1)."bd"     
+    execute (curr+1).",".last."bd"
+  endif
+
+  if nERDTree == 1
+    execute ":NERDTreeFind | wincmd p"
+  endif
+endfunction
+
+command! OnlyB call CloseAllBuffersButCurrent()
+
+" https://vi.stackexchange.com/a/6966
+" Press ESC to exit terminal simulator mode for nvim
+tnoremap <Esc><Esc> <C-\><C-n>
+
+" change style of tab/buffer in the upper
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" show hidden files by default
+let NERDTreeShowHidden=1
+
+function! RevealTerminal()
+  
+endfunction
+
+" open terminal
+if !exists(":T")
+  command! T belowright split | resize 10 | term 
+endif
+
+if !exists(":VT")
+  command! VT vsplit | term
+endif
+
+
+command! Bsplit belowright split | resize 10
+
+let g:session_autosave = 'prompt'
+
+" always have splits open below the current window by default
+" https://vim.fandom.com/wiki/Opening_new_buffer_below_the_current
+set splitbelow
+" always have vsplits open right to the current one
+set splitright

@@ -28,11 +28,16 @@ if [[ -z $TMUX ]]; then
 
 
     # Set additional GOPATH for Distributed System Labs
-    
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs-primary-backup/golabs
     export GOPATH=$GOPATH:$HOME/WorkSpace/go/src/golabs/golabs_submitted/golabs_submitted
+    # Set up GOBIN
+    export GOBIN=$HOME/WorkSpace/go/bin
 fi
+
+
+# Set up GOBIN
+export GOBIN=$HOME/WorkSpace/go/bin
 
 
 
@@ -130,30 +135,9 @@ bindkey -v
 bindkey '^R' history-incremental-pattern-search-backward
 
 
-
-
-#Set proxies for the terminal
-# export https_proxy=http://127.0.0.1:7890
-# export http_proxy=http://127.0.0.1:7890
-# export all_proxy=socks5://127.0.0.1:7891
-##上面的三行命令表示,每次新建一个终端会话时,默认让终端去走代理,这样就不需要每次都复制拷贝一下了,很方便,同时,代理程序去智能分流(国内 IP 直连,国外走代理)，避免了连接国内 IP 地址时“绕远”.
-
-
-alias setproxy="export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891i;echo \"Set proxy successfully\" "
-alias unsetproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" " 
-alias ipcn="curl myip.ipip.net"
-alias ip="curl ip.sb"
-## 上面这几个 alias 是自定义的命令
-## unsetproxy 取消代理
-## setproxy 设置代理
-## ip & ipcn  查看 IP
-
 # Ignore the warning of LOCALE when typing `vim` 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-
-
 
 
 # >>> conda initialize >>>
@@ -172,10 +156,15 @@ unset __conda_setup
 # <<< conda initialize <<<
 
  
-export FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.RunningFor}}\nSTATUS\t{{.Status}}\nPORTS\t{{.Ports}}\nNAMES\t{{.Names}}\n"
+# export FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.RunningFor}}\nSTATUS\t{{.Status}}\nPORTS\t{{.Ports}}\nNAMES\t{{.Names}}\n"
 
+# Use java 1.8 instead of 12
+# https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x 
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+# set groovy
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
 
 # Add tab completion for vman
 compdef vman="man"
@@ -184,3 +173,21 @@ compdef vman="man"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# iterm 2 shell integration
+# Added by iterm2
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+
+
+
+# Ignore duplicates in command history and increase 
+# history size to 1000 lines 
+export HISTCONTROL=ignoredups 
+export HISTSIZE=1000
+
+
+
+alias setproxy='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891'
+
+alias unsetproxy='unset https_proxy http_proxy all_proxy'
+
