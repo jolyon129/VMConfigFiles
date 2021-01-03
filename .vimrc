@@ -476,7 +476,8 @@ endif
 
 command! Bsplit belowright split | resize 10
 
-let g:session_autosave = 'prompt'
+" let g:session_autosave = 'prompt'
+let g:session_autosave = 'no'
 
 " always have splits open below the current window by default
 " https://vim.fandom.com/wiki/Opening_new_buffer_below_the_current

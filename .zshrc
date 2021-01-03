@@ -160,10 +160,10 @@ unset __conda_setup
 
 # Use java 1.8 instead of 12
 # https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+# export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 # set groovy
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
+# export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 
 # Add tab completion for vman
